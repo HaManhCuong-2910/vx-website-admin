@@ -12,8 +12,15 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
-  devtools: { enabled: true },
+  build: {
+    transpile: ["@fortawesome/vue-fontawesome"],
+  },
+  devtools: { enabled: false },
   modules: ["@pinia/nuxt", "@element-plus/nuxt"],
-  css: ["@/assets/tailwind.css", "element-plus/dist/index.css"],
+  css: [
+    "@/assets/css/tailwind.css",
+    "@/assets/css/main.scss",
+    "element-plus/dist/index.css",
+  ],
   ssr: true,
 });

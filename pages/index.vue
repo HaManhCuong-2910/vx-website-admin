@@ -1,7 +1,15 @@
 <template>
   <div>
-    <h1 class="text-3xl font-bold underline">Hello world!</h1>
+    <Head>
+      <Title>Dashbroad</Title>
+      <Meta name="description" :content="'Dashbroad'" />
+    </Head>
+    <h1 class="text-3xl font-bold underline">dsa</h1>
     <el-button type="primary">Primary</el-button>
+    <div>
+      <font-awesome-icon :icon="['fas', 'user']" />
+    </div>
+    <span>Test</span>
   </div>
 </template>
 

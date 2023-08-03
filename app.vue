@@ -1,6 +1,9 @@
 <template>
   <NuxtLayout>
-    <NuxtPage />
+    <div>
+      <NuxtLoadingIndicator :throttle="0" />
+      <NuxtPage />
+    </div>
   </NuxtLayout>
 </template>
 
