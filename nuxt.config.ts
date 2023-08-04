@@ -16,11 +16,20 @@ export default defineNuxtConfig({
     transpile: ["@fortawesome/vue-fontawesome"],
   },
   devtools: { enabled: false },
-  modules: ["@pinia/nuxt", "@element-plus/nuxt"],
+  modules: [
+    "@pinia/nuxt",
+    "@pinia-plugin-persistedstate/nuxt",
+    "@element-plus/nuxt",
+  ],
   css: [
     "@/assets/css/tailwind.css",
     "@/assets/css/main.scss",
     "element-plus/dist/index.css",
   ],
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.API_END_POINT || "",
+    },
+  },
   ssr: true,
 });

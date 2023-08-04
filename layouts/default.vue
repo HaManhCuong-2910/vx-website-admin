@@ -16,6 +16,7 @@
       </div>
     </div>
   </div>
+  <dialogComponent />
 </template>
 
 <script setup lang="ts">

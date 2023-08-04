@@ -3,7 +3,9 @@
     <Title>tin tức</Title>
     <Meta name="description" :content="'quản lý tin tức vx web'" />
   </Head>
-  <div>quản lý tin tức</div>
+  <div>
+    <manageNewsComponent />
+  </div>
 </template>
 
 <script setup lang="ts"></script>

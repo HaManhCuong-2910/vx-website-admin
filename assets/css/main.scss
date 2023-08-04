@@ -3,3 +3,45 @@ a {
     text-decoration: none;
   }
 }
+
+.action-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* padding: 6px; */
+  border: 1px solid #bdc3c7;
+  border-radius: 8px;
+  width: 40px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.action-col svg {
+  font-size: 16px;
+}
+
+.color-custom {
+  &-warning {
+    color: #ff9f43;
+  }
+
+  &-primary {
+    color: #48dbfb;
+  }
+
+  &-success {
+    color: #1dd1a1;
+  }
+
+  &-danger {
+    color: #e74c3c;
+  }
+}
+
+.custom-input-filter .el-input__wrapper,
+.custom-input-filter .el-textarea__inner {
+  box-shadow: none;
+  padding: 6px 12px;
+  border: 1px solid #d1d8e0;
+  border-radius: 8px;
+}

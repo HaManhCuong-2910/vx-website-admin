@@ -14,11 +14,10 @@
       :to="item.link"
       v-for="item in listMenu"
       :key="item.name"
-      class="nav-item mx-3"
+      class="nav-item mx-3 my-2"
     >
-      <div class="nav-link flex justify-between">
+      <div class="nav-link flex justify-center">
         <span>{{ item.name }}</span>
-        <span>dsad</span>
       </div>
     </nuxt-link>
 
