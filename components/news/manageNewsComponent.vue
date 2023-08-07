@@ -89,17 +89,27 @@ watch(
   () => eventDialog.value,
   async (value: any) => {
     if (value) {
-      const res: any = await useBaseFetch(`/news/${focusID.value}/update`, {
-        method: "DELETE",
-      });
+      try {
+        const res: any = await useBaseFetch(`/news/${focusID.value}/delete`, {
+          method: "DELETE",
+        });
+        if (res.status === 200) {
+          ElMessage({
+            message: "Xóa tin tức thành công",
+            type: "success",
+            duration: 800,
+          });
+          await handleGetData();
+        }
+      } catch (error) {}
     }
   }
 );
 
 watch(
   () => route.query,
-  () => {
-    handleGetData();
+  async () => {
+    await handleGetData();
   }
 );
 
