@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="my-10">
-      <filterSearchNewsComponent />
+      <filterSearchNewsComponent ref="filterSearch" />
     </div>
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="tableData" v-loading="isLoading" style="width: 100%">
       <el-table-column
         align="center"
         type="index"
@@ -30,8 +30,8 @@
       >
         <template #default="scope">
           <div class="d-flex justify-content-center">
-            <nuxt-link :to="'/'">
-              <el-tooltip placement="top" content="Sửa đánh giá">
+            <nuxt-link :to="'/news/edit/' + scope.row._id">
+              <el-tooltip placement="top" content="Sửa tin tức">
                 <span class="action-col mr-2">
                   <font-awesome-icon
                     :class="`color-custom-primary`"
@@ -40,7 +40,7 @@
                 </span>
               </el-tooltip>
             </nuxt-link>
-            <el-tooltip placement="top" content="Xóa đánh giá">
+            <el-tooltip placement="top" content="Xóa tin tức">
               <span
                 class="action-col mr-2 cursor-pointer"
                 @click="handleOpenDialog(scope.row._id)"
@@ -72,8 +72,13 @@ import moment from "moment";
 import { useDialogStore } from "@/store/dialog";
 import { storeToRefs } from "pinia";
 const tableData = ref<any[]>([]);
+const isLoading = ref<boolean>(false);
 const dialogStore = useDialogStore();
 const { isShow, eventDialog } = storeToRefs(dialogStore);
+const focusID = ref<string>("");
+const route = useRoute();
+const router = useRouter();
+const filterSearch = ref<any>(null);
 const { openDialog } = dialogStore;
 const dataReactive = reactive({
   count: 1,
@@ -82,27 +87,52 @@ const dataReactive = reactive({
 
 watch(
   () => eventDialog.value,
-  (value: any) => {
+  async (value: any) => {
     if (value) {
-      console.log("value", value);
+      const res: any = await useBaseFetch(`/news/${focusID.value}/update`, {
+        method: "DELETE",
+      });
     }
   }
 );
 
-const handleChangePage = (page: number) => {};
+watch(
+  () => route.query,
+  () => {
+    handleGetData();
+  }
+);
 
-onMounted(async () => {
+const handleChangePage = (page: number) => {
+  const query = route.query;
+  router.replace({
+    path: route.path,
+    query: {
+      ...query,
+      page,
+    },
+  });
+};
+
+const handleGetData = async () => {
+  const query = route.query;
+  isLoading.value = true;
   const res: any = (await useBaseFetch("/news/list", {
     method: "GET",
+    query,
   })) as any;
   tableData.value = res.data;
   dataReactive.page = res.page;
   dataReactive.count = res.count;
-  // console.log("data", data);
+  isLoading.value = false;
+};
+
+onMounted(async () => {
+  await handleGetData();
 });
 
 const handleOpenDialog = (id: string) => {
-  console.log("handle open");
+  focusID.value = id;
   openDialog({
     content: "Xác nhận xóa tin tức",
     title: "Xóa tin tức",

@@ -1,6 +1,6 @@
 <template>
   <Head>
-    <Title>tin tức</Title>
+    <Title>Quản lý tin tức</Title>
     <Meta name="description" :content="'quản lý tin tức vx web'" />
   </Head>
   <div>
