@@ -129,7 +129,6 @@ watch(
 
 const handleChangePage = (page: number) => {
   const query = route.query;
-  console.log("change page");
   router.replace({
     path: route.path,
     query: {

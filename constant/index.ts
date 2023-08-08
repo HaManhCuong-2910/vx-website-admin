@@ -79,6 +79,7 @@ export const resizeImage = (imageBase64: any): Promise<any> => {
     image.src = imageBase64;
   });
 };
+const MAX_FILE_SIZE = 300000; //300 KB
 const BASE64_MARKER = ";base64,";
 export const dataURLtoFile = (dataURI: any, filename: string) => {
   let arr = dataURI.split(","),
@@ -97,12 +98,16 @@ export const dataURLtoFile = (dataURI: any, filename: string) => {
 };
 
 export const compressFile = async (file: File, onLoadCallBack: any) => {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = async (e) => {
-    await resizeImage(reader.result as string).then(async (resolve: any) => {
-      onLoadCallBack(dataURLtoFile(resolve, file.name));
-      reader.abort();
-    });
-  };
+  if (file.size > MAX_FILE_SIZE) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async (e) => {
+      await resizeImage(reader.result as string).then(async (resolve: any) => {
+        onLoadCallBack(dataURLtoFile(resolve, file.name));
+        reader.abort();
+      });
+    };
+  } else {
+    onLoadCallBack(file);
+  }
 };
