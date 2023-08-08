@@ -6877,12 +6877,6 @@ button.bg-dark:hover {
   -ms-user-select: none !important;
   user-select: none !important;
 }
-.overflow-auto {
-  overflow: auto !important;
-}
-.overflow-hidden {
-  overflow: hidden !important;
-}
 .position-static {
   position: static !important;
 }

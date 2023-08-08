@@ -20,8 +20,7 @@ export const useBaseFetch = async (
   return await $fetch(request, {
     baseURL: config.public.apiBase,
     headers: {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDBiYWFlN2ZjNzY1ZWQ0NDFhYWJiYyIsInN0YXR1cyI6IkFDVElWRSIsInJvbGVzIjpbXSwiaWF0IjoxNjkxNDIyOTQ2LCJleHAiOjE2OTE1MDkzNDZ9.TMOHcFMqAIWdJE-pPt2ioXj8mv7Rdbq0USCJUaNM9AU",
+      Authorization: `Bearer ${accessToken || ""}`,
     },
     ...option,
   });

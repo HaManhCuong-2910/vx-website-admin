@@ -71,6 +71,7 @@ import { indexMethod } from "@/constant/index";
 import moment from "moment";
 import { useDialogStore } from "@/store/dialog";
 import { storeToRefs } from "pinia";
+import { ElLoading } from "element-plus";
 const tableData = ref<any[]>([]);
 const isLoading = ref<boolean>(false);
 const dialogStore = useDialogStore();
@@ -89,6 +90,11 @@ watch(
   () => eventDialog.value,
   async (value: any) => {
     if (value) {
+      const loading = ElLoading.service({
+        lock: true,
+        text: "Loading",
+        background: "rgba(0, 0, 0, 0.7)",
+      });
       try {
         const res: any = await useBaseFetch(`/news/${focusID.value}/delete`, {
           method: "DELETE",
@@ -101,7 +107,15 @@ watch(
           });
           await handleGetData();
         }
-      } catch (error) {}
+        loading.close();
+      } catch (error) {
+        ElMessage({
+          message: "Xóa tin tức không thành công",
+          type: "error",
+          duration: 800,
+        });
+        loading.close();
+      }
     }
   }
 );
@@ -115,6 +129,7 @@ watch(
 
 const handleChangePage = (page: number) => {
   const query = route.query;
+  console.log("change page");
   router.replace({
     path: route.path,
     query: {
@@ -138,7 +153,12 @@ const handleGetData = async () => {
 };
 
 onMounted(async () => {
-  await handleGetData();
+  router.replace({
+    path: route.path,
+    query: {
+      page: 1,
+    },
+  });
 });
 
 const handleOpenDialog = (id: string) => {
