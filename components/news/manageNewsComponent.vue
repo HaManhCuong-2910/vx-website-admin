@@ -152,12 +152,16 @@ const handleGetData = async () => {
 };
 
 onMounted(async () => {
-  router.replace({
-    path: route.path,
-    query: {
-      page: 1,
-    },
-  });
+  if (Object.keys(route.query).length === 0) {
+    router.replace({
+      path: route.path,
+      query: {
+        page: 1,
+      },
+    });
+  } else {
+    await handleGetData();
+  }
 });
 
 const handleOpenDialog = (id: string) => {
