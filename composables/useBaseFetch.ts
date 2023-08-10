@@ -15,13 +15,21 @@ export const useBaseFetch = async (
   option: FetchBaseOption
 ) => {
   const authStore = useAuthStore();
+  const router = useRouter();
   const { accessToken } = authStore;
   const config = useRuntimeConfig();
-  return await $fetch(request, {
-    baseURL: config.public.apiBase,
-    headers: {
-      Authorization: `Bearer ${accessToken || ""}`,
-    },
-    ...option,
-  });
+  try {
+    return await $fetch(request, {
+      baseURL: config.public.apiBase,
+      headers: {
+        Authorization: `Bearer ${accessToken || ""}`,
+      },
+      ...option,
+    });
+  } catch (error: any) {
+    if (error.data.statusCode === 406 || error.data.statusCode === 401) {
+      authStore.logout();
+      window.location.reload();
+    }
+  }
 };

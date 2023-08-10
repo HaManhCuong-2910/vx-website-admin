@@ -44,7 +44,7 @@ export const resizeImage = (imageBase64: any): Promise<any> => {
         "data:".length,
         imageBase64.indexOf(";base64")
       );
-      let max_size = 0.3 * 1024,
+      let max_size = 0.5 * 1024,
         width = image.width,
         height = image.height;
       if (width > height) {
@@ -79,7 +79,7 @@ export const resizeImage = (imageBase64: any): Promise<any> => {
     image.src = imageBase64;
   });
 };
-const MAX_FILE_SIZE = 300000; //300 KB
+const MAX_FILE_SIZE = 500000; //500 KB
 const BASE64_MARKER = ";base64,";
 export const dataURLtoFile = (dataURI: any, filename: string) => {
   let arr = dataURI.split(","),
