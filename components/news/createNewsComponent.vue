@@ -8,6 +8,11 @@
       size="large"
     >
       <div class="row">
+        <div class="col-12">
+          <el-form-item label="Tin nổi bật">
+            <el-switch v-model="formCreateNews.isOutstanding" />
+          </el-form-item>
+        </div>
         <div class="col-4">
           <el-form-item label="Hash tag" prop="tag">
             <el-input
@@ -105,6 +110,7 @@ const formCreateNews = ref<any>({
   title: "",
   short_description: "",
   description: "",
+  isOutstanding: false,
 });
 const formCreateNewsRef = ref<any>(null);
 const rules = reactive<FormRules>({
@@ -221,6 +227,7 @@ watch(
       formCreateNews.value.tag = props.dataDetail.tag;
       formCreateNews.value.imgs = props.dataDetail.imgs;
       formCreateNews.value.title = props.dataDetail.title;
+      formCreateNews.value.isOutstanding = props.dataDetail.isOutstanding;
       formCreateNews.value.short_description =
         props.dataDetail.short_description;
       formCreateNews.value.description = props.dataDetail.description;
