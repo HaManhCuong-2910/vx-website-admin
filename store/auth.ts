@@ -1,3 +1,4 @@
+import moment from "moment";
 import { defineStore } from "pinia";
 
 export const useAuthStore = defineStore({
@@ -23,5 +24,10 @@ export const useAuthStore = defineStore({
   getters: {
     getAccessToken: (state) => state.accessToken,
   },
-  persist: true,
+  persist: {
+    storage: persistedState.cookiesWithOptions({
+      sameSite: "strict",
+      expires: moment(new Date()).add(1, "days").toDate(),
+    }),
+  },
 });

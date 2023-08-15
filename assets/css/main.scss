@@ -39,7 +39,8 @@ a {
 }
 
 .custom-input-filter .el-input__wrapper,
-.custom-input-filter .el-textarea__inner {
+.custom-input-filter .el-textarea__inner,
+.custom-input-auto-autocomplete .el-input__wrapper {
   box-shadow: none;
   padding: 6px 12px;
   border: 1px solid #d1d8e0;
@@ -51,4 +52,9 @@ a {
   padding: 6px 12px !important;
   border: 1px solid #d1d8e0;
   border-radius: 8px !important;
+}
+
+img {
+  width: 100%;
+  object-fit: cover;
 }

@@ -7,6 +7,27 @@ export const listMenu = [
     name: "Tin tức",
     link: "/news",
   },
+  {
+    name: "Nhân sự",
+    link: "/staff",
+  },
+  {
+    name: "Dự án",
+    link: "/project",
+  },
+];
+
+export const dataDropdownOption = [
+  "Brand eXperience Designer",
+  "UX/UI Designer",
+  "Product Manager",
+  "Account Executive",
+  "Content Marketing",
+  "Content Manager",
+  "Project Manager",
+  "Art Director",
+  "Technology Advisor",
+  "Project Sales Manager",
 ];
 
 export const indexMethod = (

@@ -2,52 +2,43 @@
   <div>
     <el-form
       label-position="top"
-      ref="formCreateNewsRef"
-      :model="formCreateNews"
+      ref="formCreateStaffRef"
+      :model="formCreateStaff"
       :rules="rules"
       size="large"
     >
       <div class="row">
-        <div class="col-12">
-          <el-form-item label="Tin nổi bật">
-            <el-switch v-model="formCreateNews.isOutstanding" />
-          </el-form-item>
-        </div>
-        <div class="col-4">
-          <el-form-item label="Hash tag" prop="tag">
+        <div class="col-3">
+          <el-form-item label="Họ và tên" prop="fullName">
             <el-input
               class="custom-input-filter"
-              v-model="formCreateNews.tag"
-              placeholder="Nhập hash tag"
+              v-model="formCreateStaff.fullName"
+              placeholder="Nhập họ và tên"
               autocomplete="off"
             />
           </el-form-item>
         </div>
-        <div class="col-8">
-          <el-form-item label="Tiêu đề" prop="title">
-            <el-input
+        <div class="col-3">
+          <el-form-item label="Vị trí nhân sự" prop="position">
+            <el-select
               class="custom-input-filter"
-              v-model="formCreateNews.title"
-              placeholder="Nhập tiêu đề"
-              autocomplete="off"
-            />
+              v-model="formCreateStaff.position"
+              placeholder="Chọn vị trí"
+            >
+              <el-option
+                :label="item"
+                :value="item"
+                v-for="item in dataDropdownOption"
+                :key="item"
+              />
+            </el-select>
           </el-form-item>
         </div>
+      </div>
+
+      <div class="row mt-5">
         <div class="col-12">
-          <el-form-item label="Mô tả ngắn" prop="short_description">
-            <el-input
-              class="custom-input-filter"
-              type="textarea"
-              v-model="formCreateNews.short_description"
-              placeholder="Nhập mô tả ngắn"
-              autocomplete="off"
-              rows="5"
-              resize="none"
-            />
-          </el-form-item>
-        </div>
-        <div class="col-12">
-          <el-form-item label="Ảnh bìa" prop="imgs">
+          <el-form-item label="Ảnh đại diện" prop="image">
             <el-upload
               class="avatar-uploader"
               action="#"
@@ -60,29 +51,10 @@
             </el-upload>
           </el-form-item>
         </div>
-        <div class="col-12">
-          <el-form-item
-            label="Mô tả chi tiết"
-            class="d-block"
-            prop="description"
-          >
-            <div class="w-full">
-              <client-only>
-                <quillEditorComponent
-                  v-model:value="formCreateNews.description"
-                />
-              </client-only>
-            </div>
-          </el-form-item>
-        </div>
       </div>
 
-      <el-form-item class="w-full">
-        <el-button
-          :loading="isLoading"
-          class="m-auto"
-          type="danger"
-          @click="onSubmit"
+      <el-form-item class="w-full mt-5">
+        <el-button :loading="isLoading" type="danger" @click="onSubmit"
           >{{ props.dataDetail ? "Cập nhật" : "Tạo mới" }}
         </el-button>
       </el-form-item>
@@ -94,7 +66,7 @@
 import { FormRules, UploadProps, ElMessage } from "element-plus";
 
 import { Plus } from "@element-plus/icons-vue";
-import { compressFile } from "@/constant";
+import { compressFile, dataDropdownOption } from "@/constant";
 
 const props = defineProps({
   dataDetail: Object as PropType<any>,
@@ -104,48 +76,31 @@ const isLoading = ref<boolean>(false);
 const router = useRouter();
 const config = useRuntimeConfig();
 const previewImage = ref<string>("");
-const formCreateNews = ref<any>({
-  tag: "",
-  imgs: "",
-  title: "",
-  short_description: "",
-  description: "",
-  isOutstanding: false,
+const formCreateStaff = ref<any>({
+  fullName: "",
+  image: "",
+  position: "",
 });
-const formCreateNewsRef = ref<any>(null);
+const formCreateStaffRef = ref<any>(null);
 const rules = reactive<FormRules>({
-  tag: [
+  fullName: [
     {
       required: true,
-      message: "Vui lòng nhập hash tag",
+      message: "Vui lòng nhập họ và tên",
       trigger: "change",
     },
   ],
-  imgs: [
+  image: [
     {
       required: true,
       message: "Vui lòng thêm ảnh",
       trigger: "change",
     },
   ],
-  title: [
+  position: [
     {
       required: true,
-      message: "Vui lòng nhập tiêu đề",
-      trigger: "change",
-    },
-  ],
-  short_description: [
-    {
-      required: true,
-      message: "Vui lòng nhập mô tả ngắn",
-      trigger: "change",
-    },
-  ],
-  description: [
-    {
-      required: true,
-      message: "Vui lòng nhập mô tả chi tiết",
+      message: "Vui lòng chọn vị trí",
       trigger: "change",
     },
   ],
@@ -156,30 +111,30 @@ const handleChangeImg: UploadProps["onChange"] = async (
   uploadFiles
 ) => {
   await compressFile(uploadFile.raw as File, async (newResizeFile: any) => {
-    formCreateNews.value.imgs = newResizeFile;
+    formCreateStaff.value.image = newResizeFile;
     previewImage.value = URL.createObjectURL(newResizeFile);
   });
 };
 
 const onSubmit = async () => {
-  await formCreateNewsRef.value.validate(async (valid: any, fields: any) => {
+  await formCreateStaffRef.value.validate(async (valid: any, fields: any) => {
     if (valid) {
       try {
         isLoading.value = true;
         const formData = new FormData();
-        const listKey = Object.keys(formCreateNews.value);
+        const listKey = Object.keys(formCreateStaff.value);
         for (let i = 0; i < listKey.length; i++) {
-          formData.append(listKey[i], formCreateNews.value[listKey[i]]);
+          formData.append(listKey[i], formCreateStaff.value[listKey[i]]);
         }
         let res: any = null;
         if (props.dataDetail) {
           formData.append("_id", props.dataDetail._id);
-          res = await useBaseFetch("/news/update", {
+          res = await useBaseFetch("/staff/update", {
             method: "PUT",
             body: formData,
           });
         } else {
-          res = await useBaseFetch("/news/create", {
+          res = await useBaseFetch("/staff/create", {
             method: "POST",
             body: formData,
           });
@@ -188,18 +143,18 @@ const onSubmit = async () => {
         if (res?.status === 200) {
           if (props.dataDetail) {
             ElMessage({
-              message: "Cập nhật tin tức thành công",
+              message: "Cập nhật nhân sự thành công",
               type: "success",
               duration: 800,
             });
           } else {
             ElMessage({
-              message: "Tạo tin tức thành công",
+              message: "Tạo nhân sự thành công",
               type: "success",
               duration: 800,
             });
           }
-          router.push("/news");
+          router.push("/staff");
         } else {
           ElMessage({
             message: "Không thành công",
@@ -224,16 +179,12 @@ watch(
   () => props.dataDetail,
   () => {
     if (props.dataDetail) {
-      formCreateNews.value.tag = props.dataDetail.tag;
-      formCreateNews.value.imgs = props.dataDetail.imgs;
-      formCreateNews.value.title = props.dataDetail.title;
-      formCreateNews.value.isOutstanding = props.dataDetail.isOutstanding;
-      formCreateNews.value.short_description =
-        props.dataDetail.short_description;
-      formCreateNews.value.description = props.dataDetail.description;
+      formCreateStaff.value.fullName = props.dataDetail.fullName;
+      formCreateStaff.value.image = props.dataDetail.image;
+      formCreateStaff.value.position = props.dataDetail.position;
 
-      if (props.dataDetail.imgs) {
-        previewImage.value = `${config.public.apiBase}${props.dataDetail.imgs}`;
+      if (props.dataDetail.image) {
+        previewImage.value = `${config.public.apiBase}${props.dataDetail.image}`;
       }
     }
   }

@@ -149,7 +149,6 @@ const onSubmit = async () => {
           router.push("/");
         }
       } catch (error: any) {
-        console.log("error");
         ElMessage({
           message: error.data.message,
           type: "error",
