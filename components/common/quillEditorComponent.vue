@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="w-full bg-white">
     <client-only>
       <QuillEditor
         contentType="html"
         theme="snow"
         :modules="modules"
         v-model:content="dataValue"
-        toolbar="full"
+        :toolbar="props.toolbar || 'full'"
       />
     </client-only>
   </div>
@@ -19,6 +19,7 @@ const props = defineProps({
   class: String,
   value: String,
   placeholder: String,
+  toolbar: Array as PropType<any[]>,
 });
 const config = useRuntimeConfig();
 const dataValue = ref<any>("");

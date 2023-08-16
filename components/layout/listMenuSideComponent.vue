@@ -1,8 +1,13 @@
 <template>
   <ul
-    class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+    class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion relative"
     id="accordionSidebar"
   >
+    <span
+      class="sudo-active-link"
+      v-if="topSpace"
+      :style="`top: ${topSpace}`"
+    ></span>
     <nuxt-link
       :to="'/'"
       class="sidebar-brand d-flex align-items-center justify-content-center"
@@ -14,11 +19,19 @@
       :to="item.link"
       v-for="item in listMenu"
       :key="item.name"
-      class="nav-item mx-3 my-2"
+      custom
+      v-slot="{ isActive, href, navigate }"
     >
-      <div class="nav-link flex justify-center">
-        <span>{{ item.name }}</span>
-      </div>
+      <a
+        :href="href"
+        @click="navigate"
+        ref="ElNuxLink"
+        :class="[isActive && 'router-link-active', 'nav-item mx-3 my-2']"
+      >
+        <div class="nav-link flex justify-center">
+          <span>{{ item.name }}</span>
+        </div>
+      </a>
     </nuxt-link>
 
     <!-- <li class="nav-item">
@@ -49,6 +62,40 @@
 
 <script setup lang="ts">
 import { listMenu } from "@/constant/index";
+const route = useRoute();
+const ElNuxLink = ref<any>(null);
+const topSpace = ref<string>("");
+const handleSetAnimationLink = () => {
+  ElNuxLink.value.forEach((element: HTMLElement) => {
+    if (element.classList.contains("router-link-active")) {
+      const currentPosition = element.getBoundingClientRect();
+      console.log("element", currentPosition.top);
+      topSpace.value = `${currentPosition.top}px`;
+    }
+  });
+};
+
+watch(
+  () => route.fullPath,
+  () => {
+    setTimeout(() => {
+      handleSetAnimationLink();
+    }, 10);
+  }
+);
+
+onMounted(() => {
+  handleSetAnimationLink();
+});
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.sudo-active-link {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 56px;
+  background-color: #fff;
+  transition: 0.3s;
+}
+</style>

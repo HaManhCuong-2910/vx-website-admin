@@ -18,6 +18,11 @@ export const listMenu = [
 ];
 
 export const dataDropdownOption = [
+  "Creative Designer",
+  "Content Marketing Manager",
+  "Co-Founder/Design Team Leader",
+  "CEO/Founder/Creative Director",
+  "Strategy Director",
   "Brand eXperience Designer",
   "UX/UI Designer",
   "Product Manager",
@@ -28,6 +33,35 @@ export const dataDropdownOption = [
   "Art Director",
   "Technology Advisor",
   "Project Sales Manager",
+];
+
+export const listFontText = [
+  "SangBleu Sunrise",
+  "SVN-TT Hoves",
+  "SVN-Helvetica Now",
+];
+
+export const listPosition = [
+  {
+    label: "Giữa",
+    value: "text-ps-center",
+  },
+  {
+    label: "Dưới và trái",
+    value: "text-ps-bottom-left",
+  },
+  {
+    label: "Dưới và phải",
+    value: "text-ps-bottom-right",
+  },
+  {
+    label: "Trên và phải",
+    value: "text-ps-top-right",
+  },
+  {
+    label: "Trên và trái",
+    value: "text-ps-top-left",
+  },
 ];
 
 export const indexMethod = (

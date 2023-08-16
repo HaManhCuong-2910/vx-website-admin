@@ -9353,8 +9353,6 @@ a:focus {
   color: rgba(255, 255, 255, 0.5);
 }
 .sidebar-dark .nav-item.router-link-active .nav-link {
-  background-color: #fff;
-  border-radius: 20px;
   color: #000;
 }
 .sidebar-dark .nav-item.router-link-active .nav-link i {
